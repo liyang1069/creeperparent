@@ -2,13 +2,6 @@ package com.creeperImpl.controller;
 
 import javax.annotation.Resource;
 
-import org.dom4j.DocumentException;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-
-
-import com.creeperImpl.Common;
-import com.creeperImpl.domain.entity.Weather;
 import com.creeperImpl.service.WeatherService;
 
 //@RestController

@@ -6,12 +6,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 
+import com.creeperImpl.service.WeatherService;
+
 import java.util.concurrent.CountDownLatch;
+
+import javax.annotation.Resource;
 
 @SpringBootApplication
 @ImportResource({"classpath:spring-dubbo.xml"})
 public class CreeperApp {
-
+	
     @Bean
     public CountDownLatch closeLatch() {
         return new CountDownLatch(1);
@@ -25,5 +29,11 @@ public class CreeperApp {
 
         CountDownLatch closeLatch = ctx.getBean(CountDownLatch.class);
         closeLatch.await();
+		//test();
+	}
+	
+	public static void test(){
+		//new WeatherService().getLocationFromIp("182.50.126.10");
+		//weatherService.catchBaiduWeather("济南市");
 	}
 }

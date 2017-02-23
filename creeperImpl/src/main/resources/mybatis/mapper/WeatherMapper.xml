@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.creeperImpl.domain.repository.WeatherMapper">
+	<resultMap id="weatherMap" type="com.projectapi.teardowall.entity.WeatherBaidu">
+		<id column="id" property="id"/>
+		<result column="city_name" property="cityName"/>
+		<result column="pm25" property="pm25"/>
+		<result column="weather_date" property="weatherDate"/>
+		<result column="weather" property="weather"/>
+		<result column="wind" property="wind"/>
+		<result column="temperature" property="temperature"/>
+		<result column="day_png" property="dayPng"/>
+		<result column="night_png" property="nightPng"/>
+		<result column="creeper_date" property="creeperDate"/>
+		<result column="num" property="num"/>
+	</resultMap>
+	
+	<sql id="columns">
+		city_name, pm25, weather_date, weather, wind, temperature, day_png, night_png, creeper_date, num
+	</sql>
+	
+	<select id="getWeatherFromDB" resultMap="weatherMap">
+		select id, <include refid="columns" /> from weather_baidus where city = #{0} and creeper_date = #{1} order by num asc limit 1
+	</select>
+	
+	<insert id="insert">
+		insert into weather_baidus (<include refid="columns" />) values (#{city_name}, #{pm25}, #{weatherDate}, #{weather}, #{wind}, #{temperature}, #{dayPng}, #{nightPng}, #{creeperDate}, #{num})
+	</insert>
+	
+</mapper>

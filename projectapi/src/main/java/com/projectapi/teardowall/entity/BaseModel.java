@@ -1,4 +1,4 @@
-package com.creeperImpl.domain.entity;
+package com.projectapi.teardowall.entity;
 
 import java.util.Date;
 

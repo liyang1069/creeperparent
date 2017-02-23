@@ -18,7 +18,7 @@
 
     <!-- 声明需要暴露的服务接口 -->
     <bean id="creeperService" class="com.creeperImpl.service.WeatherService"></bean>
-    <dubbo:service interface="com.projectapi.teardowall.CreeperService" ref="creeperService" />
+    <dubbo:service interface="com.projectapi.teardowall.CreeperService" ref="creeperService" timeout="6000" />
 
 
 

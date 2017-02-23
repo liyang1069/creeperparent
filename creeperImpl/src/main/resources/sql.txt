@@ -1,3 +1,17 @@
 ALTER TABLE `teardowall`.`users` 
 ADD COLUMN `city_name` VARCHAR(45) NULL AFTER `salt`,
 ADD COLUMN `county_name` VARCHAR(45) NULL AFTER `city_name`;
+
+CREATE TABLE `teardowall`.`weather_baidus` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `city_name` VARCHAR(45) NULL,
+  `pm25` VARCHAR(45) NULL,
+  `weather_date` VARCHAR(45) NULL,
+  `weather` VARCHAR(45) NULL,
+  `wind` VARCHAR(45) NULL,
+  `temperature` VARCHAR(45) NULL,
+  `day_png` VARCHAR(255) NULL,
+  `night_png` VARCHAR(255) NULL,
+  `creeper_date` VARCHAR(45) NULL,
+  `num` INT NULL,
+  PRIMARY KEY (`id`));
