@@ -36,7 +36,11 @@ public class LocationTmp implements Serializable {
 		this.content = content;
 	}
 
-	public class Content{
+	public class Content implements Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6664227017389679770L;
 		private String address;
 		private AddressDetail address_detail;
 		private Point point;
@@ -65,7 +69,11 @@ public class LocationTmp implements Serializable {
 			this.point = point;
 		}
 
-		public class AddressDetail{
+		public class AddressDetail implements Serializable{
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3211873356370123171L;
 			private String city;
 			private String city_code;
 			private String district;
@@ -110,7 +118,11 @@ public class LocationTmp implements Serializable {
 			}
 		}
 		
-		public class Point{
+		public class Point implements Serializable{
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 4739687588086093908L;
 			private String x;
 			public String getX() {
 				return x;

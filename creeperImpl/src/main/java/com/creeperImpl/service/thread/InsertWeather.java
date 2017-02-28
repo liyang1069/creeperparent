@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.creeperImpl.domain.repository.WeatherMapper;
 import com.projectapi.teardowall.entity.WeatherBaidu;
 
+@Component
+@Transactional
 public class InsertWeather implements Runnable {
 	
 	private WeatherBaidu weatherBaidu;

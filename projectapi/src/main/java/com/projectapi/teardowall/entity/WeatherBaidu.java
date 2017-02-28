@@ -1,6 +1,12 @@
 package com.projectapi.teardowall.entity;
 
-public class WeatherBaidu {
+import java.io.Serializable;
+
+public class WeatherBaidu implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1115753880727717415L;
 	private String id;
 	private String cityName;
 	private String pm25;

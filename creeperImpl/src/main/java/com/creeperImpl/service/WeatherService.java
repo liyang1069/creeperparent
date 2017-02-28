@@ -1,10 +1,14 @@
 package com.creeperImpl.service;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -86,6 +90,7 @@ public class WeatherService extends BaseService implements CreeperService {
 
 	@Override
 	public LocationTmp getLocationFromIp(String ip) {
+		System.out.println(ip);
 		StringBuilder urlString = new StringBuilder(Common.baiduIpApi);
 		if(!Common.isBlank(ip)){
 			urlString.append("&ip=");
@@ -98,36 +103,73 @@ public class WeatherService extends BaseService implements CreeperService {
 	}
 
 	@Override
-	public WeatherBaidu catchBaiduWeather(String city) {
+	public String catchBaiduWeather(String city) {
 		String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		WeatherBaidu weather = null;
-		weather = weatherMapper.getWeatherFromDB(city, date);
-		if(weather == null){
-			weather = creeperWeatherFromBaidu(city);
-			System.out.println(weather.getCreeperDate() + weather.getTemperature());
+		List<WeatherBaidu> weathers = null;
+		weathers = weatherMapper.getWeatherFromDB(city, date);
+		if(weathers == null || weathers.size() < 1){
+			weathers = creeperWeatherFromBaidu(city);
+			//System.out.println(weather.getCreeperDate() + weather.getTemperature());
 		}
-		return weather;
+		StringBuilder weatherString = new StringBuilder();
+		if (weathers == null || weathers.size() < 1){
+			return weatherString.toString();
+		}
+		weatherString.append(weathers.get(0).getCityName());
+		weatherString.append("： ");
+		for(int i = 0; i< weathers.size(); i++){
+			WeatherBaidu weather = weathers.get(i);
+			weatherString.append(weather.getWeatherDate());
+			weatherString.append(" ");
+			weatherString.append(weather.getWeather());
+			weatherString.append(" ");
+			weatherString.append(weather.getWind());
+			weatherString.append(" ");
+			weatherString.append(weather.getTemperature());
+			weatherString.append(" ");
+		}
+		String reslu = "";
+		reslu = weatherString.toString().replaceAll("℃", "˚C");
+//		try {
+//			reslu = URLEncoder.encode(weatherString.toString(), "UTF-8");
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
+		return reslu;
 	}
 	
-	public WeatherBaidu creeperWeatherFromBaidu(String city){
-		WeatherBaidu weather = null;
+	public List<WeatherBaidu> creeperWeatherFromBaidu(String city){
+		List<WeatherBaidu> weathers = new ArrayList<WeatherBaidu>();
+		System.out.println(city);
 		if(!Common.isBlank(city)){
-			String urlString = Common.baiduWeatherApi+"&location="+city;
+			String urlString = Common.baiduWeatherApi+"&location=";
+			try {
+				urlString += URLEncoder.encode(city,"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			System.out.println(urlString);
 			String json = Common.getUrlContext(urlString, "GET");
-			System.out.println(json);
+			if (json != null){
+				json = json.replaceAll("℃", "˚C");
+			}
+			//System.out.println(json);
 			WeatherTmp tmp = new Gson().fromJson(json, WeatherTmp.class);
 			if(tmp != null && "0".equals(tmp.getError()) && tmp.getResults().size() > 0){
 				Results result = tmp.getResults().get(0);
-				for(int i = result.getWeather_data().size() - 1; i >= 0; i--){
+				for(int i = 0; i <= result.getWeather_data().size() - 1; i++){
 					WeatherData wd = result.getWeather_data().get(i);
-					weather = new WeatherBaidu(city, result.getPm25(), wd.getDate(), wd.getWeather(), wd.getWind(), 
+					WeatherBaidu weather = new WeatherBaidu(city, result.getPm25(), wd.getDate(), wd.getWeather(), wd.getWind(), 
 							wd.getTemperature(), wd.getDayPictureUrl(), wd.getNightPictureUrl(), tmp.getDate(),i);
-					InsertWeather insertThread = new InsertWeather(weather);
-					Thread thread = new Thread(insertThread);
-					thread.start();
+//					InsertWeather insertThread = new InsertWeather(weather);
+//					Thread thread = new Thread(insertThread);
+//					thread.start();
+					if(i < 2){
+						weathers.add(weather);
+					}
 				}
 			}
 		}
-		return weather;
+		return weathers;
 	}
 }

@@ -22,11 +22,11 @@
 	</sql>
 	
 	<select id="getWeatherFromDB" resultMap="weatherMap">
-		select id, <include refid="columns" /> from weather_baidus where city = #{0} and creeper_date = #{1} order by num asc limit 1
+		select id, <include refid="columns" /> from weather_baidus where city_name = #{0} and creeper_date = #{1} order by num asc limit 2
 	</select>
 	
 	<insert id="insert">
-		insert into weather_baidus (<include refid="columns" />) values (#{city_name}, #{pm25}, #{weatherDate}, #{weather}, #{wind}, #{temperature}, #{dayPng}, #{nightPng}, #{creeperDate}, #{num})
+		insert into weather_baidus (<include refid="columns" />) values (#{cityName}, #{pm25}, #{weatherDate}, #{weather}, #{wind}, #{temperature}, #{dayPng}, #{nightPng}, #{creeperDate}, #{num})
 	</insert>
 	
 </mapper>

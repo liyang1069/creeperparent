@@ -1,7 +1,6 @@
 package com.projectapi.teardowall;
 
 import com.projectapi.teardowall.entity.LocationTmp;
-import com.projectapi.teardowall.entity.WeatherBaidu;
 
 public interface CreeperService {
 	
@@ -9,7 +8,7 @@ public interface CreeperService {
 	
 	//Weather catchWeather(String urlString) throws DocumentException;
 	
-	WeatherBaidu catchBaiduWeather(String city);
+	String catchBaiduWeather(String city);
 	
 	LocationTmp getLocationFromIp(String ip);
 	
