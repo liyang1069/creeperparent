@@ -101,6 +101,30 @@ public class WeatherService extends BaseService implements CreeperService {
 		LocationTmp o = gson.fromJson(jsonString, LocationTmp.class);
 		return o;
 	}
+	
+	private String getPm25Desc(String pm25){
+		String result = null;
+		int pm = Integer.parseInt(pm25);
+		if(pm < 35){
+			result = "空气质量:优";
+		}
+		else if(pm < 75){
+			result = "空气质量:良";
+		}
+		else if(pm < 115){
+			result = "轻度污染";
+		}
+		else if(pm < 150){
+			result = "中度污染";
+		}
+		else if(pm < 250){
+			result = "重度污染";
+		}
+		else{
+			result = "严重污染";
+		}
+		return result;
+	}
 
 	@Override
 	public String catchBaiduWeather(String city) {
@@ -120,6 +144,15 @@ public class WeatherService extends BaseService implements CreeperService {
 		for(int i = 0; i< weathers.size(); i++){
 			WeatherBaidu weather = weathers.get(i);
 			weatherString.append(weather.getWeatherDate());
+			if(i == 0){
+				weatherString.append(" ");
+				try{
+					weatherString.append(getPm25Desc(weather.getPm25()));
+				}
+				catch(Exception e){
+					System.out.println(weather.getPm25());
+				}
+			}
 			weatherString.append(" ");
 			weatherString.append(weather.getWeather());
 			weatherString.append(" ");
