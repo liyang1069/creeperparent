@@ -1,7 +1,5 @@
 package com.creeperImpl.service.thread;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,20 +12,20 @@ public class InsertWeather implements Runnable {
 	
 	private WeatherBaidu weatherBaidu;
 	
-	@Resource
 	private WeatherMapper weatherMapper;
 	
 	public InsertWeather(){
 		
 	}
 	
-	public InsertWeather(WeatherBaidu weatherBaidu){
+	public InsertWeather(WeatherBaidu weatherBaidu, WeatherMapper weatherMapper){
 		this.weatherBaidu = weatherBaidu;
+		this.weatherMapper = weatherMapper;
 	}
 
 	@Override
 	public void run() {
-		if(weatherBaidu != null)
+		if(weatherBaidu != null && weatherMapper != null)
 			weatherMapper.insert(weatherBaidu);
 	}
 
