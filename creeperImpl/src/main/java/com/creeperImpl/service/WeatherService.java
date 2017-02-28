@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.creeperImpl.Common;
 import com.creeperImpl.domain.repository.WeatherMapper;
-import com.creeperImpl.service.thread.InsertWeather;
 import com.google.gson.Gson;
 import com.projectapi.teardowall.CreeperService;
 import com.projectapi.teardowall.entity.LocationTmp;
@@ -164,6 +163,7 @@ public class WeatherService extends BaseService implements CreeperService {
 //					InsertWeather insertThread = new InsertWeather(weather);
 //					Thread thread = new Thread(insertThread);
 //					thread.start();
+					weatherMapper.insert(weather);
 					if(i < 2){
 						weathers.add(weather);
 					}

@@ -5,12 +5,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
-
-import com.creeperImpl.service.WeatherService;
-
 import java.util.concurrent.CountDownLatch;
-
-import javax.annotation.Resource;
 
 @SpringBootApplication
 @ImportResource({"classpath:spring-dubbo.xml"})
