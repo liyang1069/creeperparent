@@ -21,10 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.creeperImpl.Common;
+import com.creeperImpl.domain.repository.DonateInfoMapper;
 import com.creeperImpl.domain.repository.WeatherMapper;
 import com.creeperImpl.service.thread.InsertWeather;
 import com.google.gson.Gson;
 import com.projectapi.teardowall.CreeperService;
+import com.projectapi.teardowall.entity.DonateInfo;
 import com.projectapi.teardowall.entity.LocationTmp;
 import com.projectapi.teardowall.entity.Weather;
 import com.projectapi.teardowall.entity.WeatherBaidu;
@@ -36,9 +38,11 @@ import com.projectapi.teardowall.entity.WeatherTmp.Results.WeatherData;
 @Component
 @Transactional
 public class WeatherService extends BaseService implements CreeperService {
-	
+
 	@Resource
 	private WeatherMapper weatherMapper;
+	@Resource
+	private DonateInfoMapper donateInfoMapper;
 
 	public Weather catchWeather(String urlString) throws DocumentException{
 		URL url = null;
@@ -205,5 +209,15 @@ public class WeatherService extends BaseService implements CreeperService {
 			}
 		}
 		return weathers;
+	}
+
+	@Override
+	public List<DonateInfo> getAllDonateInfos() {
+		return donateInfoMapper.getAllDonateInfos();
+	}
+
+	@Override
+	public void insertDonateInfo(DonateInfo donateInfo) {
+		donateInfoMapper.insert(donateInfo);
 	}
 }

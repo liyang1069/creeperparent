@@ -1,5 +1,8 @@
 package com.projectapi.teardowall;
 
+import java.util.List;
+
+import com.projectapi.teardowall.entity.DonateInfo;
 import com.projectapi.teardowall.entity.LocationTmp;
 
 public interface CreeperService {
@@ -11,5 +14,9 @@ public interface CreeperService {
 	String catchBaiduWeather(String city);
 	
 	LocationTmp getLocationFromIp(String ip);
+	
+	List<DonateInfo> getAllDonateInfos();
+	
+	void insertDonateInfo(DonateInfo donateInfo);
 	
 }
