@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.annotation.Resource;
 
@@ -191,6 +193,7 @@ public class WeatherService extends BaseService implements CreeperService {
 				json = json.replaceAll("℃", "˚C");
 			}
 			//System.out.println(json);
+			ExecutorService pool = Executors.newFixedThreadPool(1);
 			WeatherTmp tmp = new Gson().fromJson(json, WeatherTmp.class);
 			if(tmp != null && "0".equals(tmp.getError()) && tmp.getResults().size() > 0){
 				Results result = tmp.getResults().get(0);
@@ -199,14 +202,16 @@ public class WeatherService extends BaseService implements CreeperService {
 					WeatherBaidu weather = new WeatherBaidu(city, result.getPm25(), wd.getDate(), wd.getWeather(), wd.getWind(), 
 							wd.getTemperature(), wd.getDayPictureUrl(), wd.getNightPictureUrl(), tmp.getDate(),i);
 					InsertWeather insertThread = new InsertWeather(weather, weatherMapper);
-					Thread thread = new Thread(insertThread);
-					thread.start();
+//					Thread thread = new Thread(insertThread);
+//					thread.start();
+					pool.execute(insertThread);
 					//weatherMapper.insert(weather);
 					if(i < 2){
 						weathers.add(weather);
 					}
 				}
 			}
+			pool.shutdown();
 		}
 		return weathers;
 	}
